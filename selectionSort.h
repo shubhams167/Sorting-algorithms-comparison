@@ -8,7 +8,7 @@
 *	Input:		Array to sort and size of array
 *	Output:		None
 *******************************************************/
-void selectionSort(int *arr, const int size)
+void selectionSort(int *arr, const int size, long long &comparisons)
 {
 	int min, temp;
 	for(int i = 0; i < size - 1; i++)
@@ -17,6 +17,7 @@ void selectionSort(int *arr, const int size)
 		/*Find index of minimum element in unsorted part of array*/
 		for(int j = i + 1; j < size; j++)
 		{
+			comparisons++;
 			if(arr[j] < arr[min])
 				min = j;
 		}

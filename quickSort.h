@@ -20,12 +20,13 @@ void swap(int &a, int &b)
 *	Input:		Three parameters: Array to partition, left index and right index
 *	Output:		Index of sorted pivot element.
 **************************************************************************************************/
-int partition(int *a, int left, int right)
+int partition(int *a, int left, int right, long long &comparisons)
 {
 	int pivot = a[right];//Select last element as pivot
 	int i = left - 1;
 	for(int j = left; j < right; j++)
 	{
+		comparisons++;
 		if(a[j] <= pivot)
 		{
 			i++;
@@ -41,14 +42,15 @@ int partition(int *a, int left, int right)
 *	Input:		Three parameters: Array to sort, left and right index of array.
 *	Output:		None.
 **************************************************************************************************/
-void quickSort(int *a, int left, int right)
+void quickSort(int *a, int left, int right, long long &comparisons)
 {
 	int j;
 	if(left < right)
 	{
-		j = partition(a, left, right);
-		quickSort(a, left, j - 1);
-		quickSort(a, j + 1, right);
+		comparisons++;
+		j = partition(a, left, right, comparisons);
+		quickSort(a, left, j - 1, comparisons);
+		quickSort(a, j + 1, right, comparisons);
 	}
 }
 

@@ -8,13 +8,14 @@
 *	Input:		Five parameters: left and right sub-arrays and their size and bigger array arr.
 *	Output:		None.
 **************************************************************************************************/
-void merge(int *arr, int *left, int leftCount, int *right, int rightCount)
+void merge(int *arr, int *left, int leftCount, int *right, int rightCount, long long &comparisons)
 {
 	int i = 0, j = 0, k = 0;
 	/*Fill arr with elements from left and right sub-arrays in sorted order until one or both
 	sub-arrays are exhausted*/
 	while(i < leftCount && j < rightCount)
 	{
+		comparisons++;
 		/*Merge in ascending order*/
 		if(left[i] <= right[j])			/*Change to left[i] >= right[i] to sort in descending order*/
 			arr[k++] = left[i++];
@@ -24,11 +25,17 @@ void merge(int *arr, int *left, int leftCount, int *right, int rightCount)
 	/*If all elements of right sub-array are merged into arr but left sub-array still not completely merged
 	then merge left out elements of left sub-array into arr*/
 	while(i < leftCount)
+	{
+		comparisons++;
 		arr[k++] = left[i++];
+	}
 	/*If all elements of left sub-array are merged into arr but right sub-array still not completely merged
 	then merge left out elements of right sub-array into arr*/
 	while(j < rightCount)
-		arr[k++] = right[j++];	
+	{
+		comparisons++;
+		arr[k++] = right[j++];
+	}
 }
 
 /**************************************************************************************************************************
@@ -36,7 +43,7 @@ void merge(int *arr, int *left, int leftCount, int *right, int rightCount)
 *	Input:		Two parameters: Array to be divided and it's size.
 *	Output:		None.
 **************************************************************************************************************************/
-void mergeSort(int *arr, int size)
+void mergeSort(int *arr, int size, long long &comparisons)
 {
 	if(size < 2)
 		return;
@@ -51,9 +58,9 @@ void mergeSort(int *arr, int size)
 	for(int i = mid; i < size; i++)
 		right[i - mid] = arr[i];
 	/*Call mergeSort to further divide sub-arrays left and right*/
-	mergeSort(left, mid);
-	mergeSort(right, size - mid);
-	merge(arr, left, mid, right, size - mid);
+	mergeSort(left, mid, comparisons);
+	mergeSort(right, size - mid, comparisons);
+	merge(arr, left, mid, right, size - mid, comparisons);
 	delete[] left;
 	delete[] right;
 }
